@@ -1,4 +1,5 @@
 package com.estudospring.personapi.entity;
+import com.estudospring.personapi.dto.request.PersonDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -6,14 +7,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 @Entity
 public class Person {
-
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -33,4 +31,10 @@ public class Person {
     @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private List<Phone> phone;
 
+    public Person(PersonDto p) {
+        this.firstName = p.getFirstName();
+        this.lastName = p.getLastName();
+        this.cpf = p.getCpf();
+        this.phone = p.getPhone();
+    }
 }
